@@ -209,7 +209,6 @@ public static class RustFsBuilderExtensions
 
         var bucketBuilder = builder.ApplicationBuilder
             .AddResource(bucketResource)
-            .WithParentRelationship(builder)
             .WithInitialState(new()
             {
                 ResourceType = "RustFsBucket",
