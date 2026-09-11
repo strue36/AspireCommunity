@@ -109,7 +109,7 @@ public class AddRustFsTests
     }
 
     [Fact]
-    public void AddBucketRegistersChildBucketResource()
+    public void AddBucketRegistersChildBucketResourceWithoutRedundantParentRelationship()
     {
         var builder = DistributedApplication.CreateBuilder();
 
@@ -126,10 +126,9 @@ public class AddRustFsTests
         Assert.Same(rustfs.Resource, bucket.Parent);
         Assert.Same(bucket, bucketBuilder.Resource);
 
-        var parentAnnotation = bucket.Annotations.OfType<ResourceRelationshipAnnotation>()
-            .SingleOrDefault(a => a.Type == "Parent");
-        Assert.NotNull(parentAnnotation);
-        Assert.Same(rustfs.Resource, parentAnnotation.Resource);
+        Assert.DoesNotContain(
+            bucket.Annotations.OfType<ResourceRelationshipAnnotation>(),
+            annotation => annotation.Type == "Parent");
     }
 
     [Fact]
